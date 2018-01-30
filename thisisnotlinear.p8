@@ -3,6 +3,57 @@ version 16
 __lua__
 
 function game_init()
+  player_init()
+  world_init()
+
+  update=game_update
+  draw=game_draw
+end
+
+function game_update()
+  player_move()
+end
+
+
+function game_draw()
+  cls()
+  camera(player.x - 5, camera_y)
+  map(0, 0, 0, 0, 128, camera_y, 0)
+  spr(player.sprite, player.x, player.y, 1, 1, player.flip_x, player.flip_y)
+  -- player_textbox("hello there")
+end
+
+function _init()
+  menu_init()
+end
+
+function _update()
+  update()
+end
+
+function _draw()
+  draw()
+end
+
+function menu_init()
+  update=menu_update
+  draw=menu_draw
+end
+
+function menu_update()
+  if (btn(4)) then
+    game_init()
+  end
+end
+
+function menu_draw()
+  cls()
+  print("push z to start", 0, 0)
+end
+
+
+
+function player_init()
   player = {
     x = 8,
     y = 50,
@@ -18,22 +69,9 @@ function game_init()
     speed_x = 0,
     speed_y = 0,
   }
-
-  camera_y = 20
-  up    = -1
-  left  = -1
-  right = 1
-  down  = 1
-
-  update=game_update
-  draw=game_draw
 end
 
-function game_update()
-  move_player()
-end
-
-function move_player()
+function player_move()
   player.grounded = fget(mget(flr(player.x+4)/8, flr(player.y)/8 + 1), 0)
   player.tile_y   = flr(player.y)/8
 
@@ -100,50 +138,21 @@ function move_player()
   player.y += player.speed_y
 end
 
-function game_draw()
-  cls()
-  camera(player.x - 5, camera_y)
-  map(0, 0, 0, 0, 128, camera_y, 0)
-  spr(player.sprite, player.x, player.y, 1, 1, player.flip_x, player.flip_y)
-  -- player_textbox("hello there")
-end
-
-function menu_init()
-  update=menu_update
-  draw=menu_draw
-end
-
-function menu_update()
-  if (btn(4)) then
-    game_init()
-  end
-end
-
-function menu_draw()
-  cls()
-  print("push z to start", 0, 0)
-end
-
-function collides_x(direction)
-  return fget(mget(player.tile_x, player.tile_y), 0)
-end
-
-
 function player_textbox(text)
     print(text, player.x + 4, player.y - 10)
     rect(player.x, player.y-3.5, player.x + (5*#text), player.y - 12.5)
 end
 
-function _init()
-  menu_init()
+function world_init()
+  camera_y = 20
+  up    = -1
+  left  = -1
+  right = 1
+  down  = 1
 end
 
-function _update()
-  update()
-end
-
-function _draw()
-  draw()
+function collides_x(direction)
+  return fget(mget(player.tile_x, player.tile_y), 0)
 end
 
 __gfx__
