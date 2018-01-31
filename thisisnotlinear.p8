@@ -2,6 +2,8 @@ pico-8 cartridge // http://www.pico-8.com
 version 16
 __lua__
 
+-- Game
+
 function game_init()
   player_init()
   world_init()
@@ -23,6 +25,8 @@ function game_draw()
   -- player_textbox("hello there")
 end
 
+-- Main
+
 function _init()
   menu_init()
 end
@@ -34,6 +38,8 @@ end
 function _draw()
   draw()
 end
+
+-- Menu
 
 function menu_init()
   update=menu_update
@@ -52,6 +58,8 @@ function menu_draw()
 end
 
 
+
+-- Player
 
 function player_init()
   player = {
@@ -142,6 +150,8 @@ function player_textbox(text)
     print(text, player.x + 4, player.y - 10)
     rect(player.x, player.y-3.5, player.x + (5*#text), player.y - 12.5)
 end
+
+-- World
 
 function world_init()
   camera_y = 20

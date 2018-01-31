@@ -1,3 +1,5 @@
+-- Game
+
 function game_init()
   player_init()
   world_init()

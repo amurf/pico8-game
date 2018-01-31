@@ -1,3 +1,5 @@
+-- Menu
+
 function menu_init()
   update=menu_update
   draw=menu_draw
