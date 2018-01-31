@@ -54,10 +54,24 @@ end
 
 function menu_draw()
   cls()
-  print("push z to start", 0, 0)
+
+  local msg = "push z to start"
+  textbox(20, 40, msg)
 end
 
 
+function textbox(start_pos_x, start_pos_y, msg, padding_arg)
+  local pico_font_height = 4
+  local pico_font_width  = 4
+  local offset           = 2
+  local padding          = padding_arg or 4
+
+  color(2)
+  rectfill(start_pos_x, start_pos_y + pico_font_height + padding*2, (start_pos_x - offset + #msg * 4) + padding*2, start_pos_y)
+
+  color(3)
+  print(msg, start_pos_x + padding, start_pos_y + padding)
+end
 
 -- Player
 
