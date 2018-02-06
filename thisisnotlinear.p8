@@ -2,6 +2,13 @@ pico-8 cartridge // http://www.pico-8.com
 version 16
 __lua__
 
+-- Collision
+
+function collides(obj)
+  local tile = mget(obj.tile_x, obj.tile_y)
+  return is_solid(tile)
+end
+
 -- Enemy
 
 function enemy_init(x, y)
@@ -21,11 +28,12 @@ function enemy_init(x, y)
   return enemy
 end
 
-function move_enemy(enemy)
-  enemy.grounded = fget(mget(flr(enemy.x+4)/8, flr(enemy.y)/8 + 1), 0)
+function update_enemy(enemy)
+
+  enemy.grounded = is_solid(mget(flr(enemy.x+4)/8, flr(enemy.y)/8 + 1))
   enemy.tile_y   = flr(enemy.y)/8
 
-  if (enemy_collides(enemy)) then
+  if (collides(enemy)) then
     if (enemy.flip_x) then
       enemy.flip_x = false
     else
@@ -60,10 +68,6 @@ function draw_enemy(enemy)
   spr(enemy.sprite, enemy.x, enemy.y, 1, 1, enemy.flip_x, enemy.flip_y)
 end
 
-function enemy_collides(enemy)
-  return fget(mget(enemy.tile_x, enemy.tile_y), 0)
-end
-
 -- Game
 
 enemies = {}
@@ -79,8 +83,8 @@ function game_init()
 end
 
 function game_update()
-  move_player()
-  foreach(enemies, move_enemy)
+  update_player()
+  foreach(enemies, update_enemy)
 end
 
 
@@ -169,19 +173,19 @@ function draw_player()
   spr(player.sprite, player.x, player.y, 1, 1, player.flip_x, player.flip_y)
 end
 
-function move_player()
-  player.grounded = fget(mget(flr(player.x+4)/8, flr(player.y)/8 + 1), 0)
+function update_player()
+  player.grounded = is_solid(mget(flr(player.x+4)/8, flr(player.y)/8 + 1), 0)
   player.tile_y   = flr(player.y)/8
 
   velocity_x = 0
 
   if (btn(0)) then
-    if (not collides_x(left)) velocity_x = -player.velocity_x
+    if (not collides(player)) velocity_x = -player.velocity_x
     player.flip_x = true
   end
 
   if (btn(1)) then
-    if (not collides_x(right)) velocity_x = player.velocity_x
+    if (not collides(player)) velocity_x = player.velocity_x
     player.flip_x = false
   end
 
@@ -208,9 +212,9 @@ function move_player()
    	player.speed_x = -player.max_speed
   end
 
-  if (collides_x(left) and velocity_x == 0 and player.speed_x < 0) then
+  if (collides(player) and velocity_x == 0 and player.speed_x < 0) then
     player.speed_x = 0
-  elseif (collides_x(right) and velocity_x == 0 and player.speed_x > 0) then
+  elseif (collides(player) and velocity_x == 0 and player.speed_x > 0) then
     player.speed_x = 0
   elseif velocity_x == 0 then
     player.speed_x *= 0.8
@@ -241,6 +245,12 @@ function player_textbox(text)
     rect(player.x, player.y-3.5, player.x + (5*#text), player.y - 12.5)
 end
 
+-- Sprite
+
+function is_solid(sprite)
+  return fget(sprite, 0)
+end
+
 -- World
 
 function world_init()
@@ -249,10 +259,6 @@ function world_init()
   left  = -1
   right = 1
   down  = 1
-end
-
-function collides_x(direction)
-  return fget(mget(player.tile_x, player.tile_y), 0)
 end
 
 __gfx__

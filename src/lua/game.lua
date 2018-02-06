@@ -13,8 +13,8 @@ function game_init()
 end
 
 function game_update()
-  move_player()
-  foreach(enemies, move_enemy)
+  update_player()
+  foreach(enemies, update_enemy)
 end
 
 
