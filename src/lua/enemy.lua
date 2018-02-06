@@ -53,6 +53,9 @@ end
 
 function draw_enemy(enemy)
   -- WIP hurtbox
-  rect(enemy.x - 1, enemy.y - 1, enemy.x + 8, enemy.y + 2)
+
+  local enemy_hurtbox = make_rect(enemy.x - 1, enemy.y - 1, 9, 2)
+  draw_rect(enemy_hurtbox)
+
   spr(enemy.sprite, enemy.x, enemy.y, 1, 1, enemy.flip_x, enemy.flip_y)
 end

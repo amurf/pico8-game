@@ -4,6 +4,23 @@ __lua__
 
 -- Collision
 
+function make_rect(x, y, width, height)
+  local _rect = {
+    x0 = x,
+    y0 = y,
+    x1 = x + width,
+    y1 = y + height,
+    width = width,
+    height = height,
+  }
+
+  return _rect
+end
+
+function draw_rect(r)
+  rect(r.x0, r.y0, r.x1, r.y1)
+end
+
 function collides(obj)
   local tile = mget(obj.tile_x, obj.tile_y)
   return is_solid(tile)
@@ -64,7 +81,10 @@ end
 
 function draw_enemy(enemy)
   -- WIP hurtbox
-  rect(enemy.x - 1, enemy.y - 1, enemy.x + 8, enemy.y + 2)
+
+  local enemy_hurtbox = make_rect(enemy.x - 1, enemy.y - 1, 9, 2)
+  draw_rect(enemy_hurtbox)
+
   spr(enemy.sprite, enemy.x, enemy.y, 1, 1, enemy.flip_x, enemy.flip_y)
 end
 
@@ -167,8 +187,8 @@ end
 function draw_player()
   camera(player.x - 5, camera_y)
 
-  -- WIP hitbox
-  rect(player.x - 1, player.y + 6, player.x + 8, player.y + 8)
+  local player_hurtbox = make_rect(player.x - 1, player.y + 6, 8, 2)
+  draw_rect(player_hurtbox)
 
   spr(player.sprite, player.x, player.y, 1, 1, player.flip_x, player.flip_y)
 end

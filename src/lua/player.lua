@@ -21,8 +21,8 @@ end
 function draw_player()
   camera(player.x - 5, camera_y)
 
-  -- WIP hitbox
-  rect(player.x - 1, player.y + 6, player.x + 8, player.y + 8)
+  local player_hurtbox = make_rect(player.x - 1, player.y + 6, 8, 2)
+  draw_rect(player_hurtbox)
 
   spr(player.sprite, player.x, player.y, 1, 1, player.flip_x, player.flip_y)
 end
