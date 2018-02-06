@@ -51,6 +51,8 @@ function move_enemy(enemy)
 end
 
 function draw_enemy(enemy)
+  -- WIP hurtbox
+  rect(enemy.x - 1, enemy.y - 1, enemy.x + 8, enemy.y + 2)
   spr(enemy.sprite, enemy.x, enemy.y, 1, 1, enemy.flip_x, enemy.flip_y)
 end
 

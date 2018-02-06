@@ -18,7 +18,16 @@ function player_init()
   }
 end
 
-function player_move()
+function draw_player()
+  camera(player.x - 5, camera_y)
+
+  -- WIP hitbox
+  rect(player.x - 1, player.y + 6, player.x + 8, player.y + 8)
+
+  spr(player.sprite, player.x, player.y, 1, 1, player.flip_x, player.flip_y)
+end
+
+function move_player()
   player.grounded = fget(mget(flr(player.x+4)/8, flr(player.y)/8 + 1), 0)
   player.tile_y   = flr(player.y)/8
 

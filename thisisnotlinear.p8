@@ -55,6 +55,8 @@ function move_enemy(enemy)
 end
 
 function draw_enemy(enemy)
+  -- WIP hurtbox
+  rect(enemy.x - 1, enemy.y - 1, enemy.x + 8, enemy.y + 2)
   spr(enemy.sprite, enemy.x, enemy.y, 1, 1, enemy.flip_x, enemy.flip_y)
 end
 
@@ -77,21 +79,17 @@ function game_init()
 end
 
 function game_update()
-  player_move()
-
+  move_player()
   foreach(enemies, move_enemy)
 end
 
 
 function game_draw()
   cls()
-  camera(player.x - 5, camera_y)
   map(0, 0, 0, 0, 128, camera_y, 0)
-  spr(player.sprite, player.x, player.y, 1, 1, player.flip_x, player.flip_y)
 
+  draw_player()
   foreach(enemies, draw_enemy)
-
-  -- textbox(player.x, player.y - 10, "i am message", 1)
 end
 
 -- Main
@@ -162,7 +160,16 @@ function player_init()
   }
 end
 
-function player_move()
+function draw_player()
+  camera(player.x - 5, camera_y)
+
+  -- WIP hitbox
+  rect(player.x - 1, player.y + 6, player.x + 8, player.y + 8)
+
+  spr(player.sprite, player.x, player.y, 1, 1, player.flip_x, player.flip_y)
+end
+
+function move_player()
   player.grounded = fget(mget(flr(player.x+4)/8, flr(player.y)/8 + 1), 0)
   player.tile_y   = flr(player.y)/8
 
