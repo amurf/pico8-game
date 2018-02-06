@@ -6,7 +6,7 @@ function player_init()
     y = 50,
     flip_x = false,
     flip_y = false,
-    jump_height = -4,
+    jump_height = -5,
     idle_sprite = 1,
     sprite = 1,
     run_start_sprite = 5,
