@@ -17,11 +17,12 @@ function enemy_init(x, y)
   return enemy
 end
 
-function move_enemy(enemy)
-  enemy.grounded = fget(mget(flr(enemy.x+4)/8, flr(enemy.y)/8 + 1), 0)
+function update_enemy(enemy)
+
+  enemy.grounded = is_solid(mget(flr(enemy.x+4)/8, flr(enemy.y)/8 + 1))
   enemy.tile_y   = flr(enemy.y)/8
 
-  if (enemy_collides(enemy)) then
+  if (collides(enemy)) then
     if (enemy.flip_x) then
       enemy.flip_x = false
     else
@@ -54,8 +55,4 @@ function draw_enemy(enemy)
   -- WIP hurtbox
   rect(enemy.x - 1, enemy.y - 1, enemy.x + 8, enemy.y + 2)
   spr(enemy.sprite, enemy.x, enemy.y, 1, 1, enemy.flip_x, enemy.flip_y)
-end
-
-function enemy_collides(enemy)
-  return fget(mget(enemy.tile_x, enemy.tile_y), 0)
 end

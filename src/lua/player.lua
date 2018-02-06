@@ -27,19 +27,19 @@ function draw_player()
   spr(player.sprite, player.x, player.y, 1, 1, player.flip_x, player.flip_y)
 end
 
-function move_player()
-  player.grounded = fget(mget(flr(player.x+4)/8, flr(player.y)/8 + 1), 0)
+function update_player()
+  player.grounded = is_solid(mget(flr(player.x+4)/8, flr(player.y)/8 + 1), 0)
   player.tile_y   = flr(player.y)/8
 
   velocity_x = 0
 
   if (btn(0)) then
-    if (not collides_x(left)) velocity_x = -player.velocity_x
+    if (not collides(player)) velocity_x = -player.velocity_x
     player.flip_x = true
   end
 
   if (btn(1)) then
-    if (not collides_x(right)) velocity_x = player.velocity_x
+    if (not collides(player)) velocity_x = player.velocity_x
     player.flip_x = false
   end
 
@@ -66,9 +66,9 @@ function move_player()
    	player.speed_x = -player.max_speed
   end
 
-  if (collides_x(left) and velocity_x == 0 and player.speed_x < 0) then
+  if (collides(player) and velocity_x == 0 and player.speed_x < 0) then
     player.speed_x = 0
-  elseif (collides_x(right) and velocity_x == 0 and player.speed_x > 0) then
+  elseif (collides(player) and velocity_x == 0 and player.speed_x > 0) then
     player.speed_x = 0
   elseif velocity_x == 0 then
     player.speed_x *= 0.8

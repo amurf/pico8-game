@@ -7,7 +7,3 @@ function world_init()
   right = 1
   down  = 1
 end
-
-function collides_x(direction)
-  return fget(mget(player.tile_x, player.tile_y), 0)
-end
